@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialRoomState = {
   identity: '',
-  isRoomHost: false
+  isRoomHost: false,
+  connectOnlyWithAudio: false
 };
 
 const roomSlice = createSlice({
@@ -11,6 +12,9 @@ const roomSlice = createSlice({
   reducers: {
     setIsRoomHost(state, action) {
       state.isRoomHost = action.payload;
+    },
+    setConnectOnlyWithAudio(state, action) {
+      state.connectOnlyWithAudio = action.payload;
     }
   }
 })

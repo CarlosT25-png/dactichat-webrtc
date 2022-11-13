@@ -13,6 +13,7 @@ const JoinRoomContent = () => {
   const navigate = useNavigate();
   const isRoomHost = useSelector(state => state.room.isRoomHost);
   const connectOnlyWithAudio = useSelector(state => state.room.connectOnlyWithAudio);
+
   const setConnectOnlyWithAudio = () => {
     dispatch(roomActions.setConnectOnlyWithAudio(!connectOnlyWithAudio));
   }
@@ -22,6 +23,7 @@ const JoinRoomContent = () => {
   const [errorMessage, setErrorMessage] = useState(null);
 
   const handleJoinRoom = async() => {
+    dispatch(roomActions.setIdentity(nameValue))
     if(isRoomHost){
       createRoom();
     } else {
@@ -38,7 +40,8 @@ const JoinRoomContent = () => {
       if(full){
         setErrorMessage('La reunión ha alcanzado el máximo de participantes');
       } else {
-        //Save in our redux store meeting id which was provided by user would like to join
+        console.log(responseMessage);
+        dispatch(roomActions.setRoomId(roomIdValue))
         navigate('/room');
       }
     } else {

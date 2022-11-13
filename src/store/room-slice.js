@@ -3,7 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialRoomState = {
   identity: '',
   isRoomHost: false,
-  connectOnlyWithAudio: false
+  connectOnlyWithAudio: false,
+  roomId: null,
+  showOverlay: true,
+  participants: []
 };
 
 const roomSlice = createSlice({
@@ -15,6 +18,18 @@ const roomSlice = createSlice({
     },
     setConnectOnlyWithAudio(state, action) {
       state.connectOnlyWithAudio = action.payload;
+    },
+    setRoomId(state, action) {
+      state.roomId = action.payload
+    },
+    setIdentity(state, action){
+      state.identity = action.payload;
+    },
+    setShowOverlay(state, action){
+      state.showOverlay = action.payload;
+    },
+    setParticipants(state, action){
+      state.participants = action.payload
     }
   }
 })

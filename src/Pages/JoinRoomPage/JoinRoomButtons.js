@@ -15,7 +15,7 @@ const Button = ({ buttonText, cancelButton = false, onClickHandler }) => {
 
 const JoinRoomButtons = ({ handleJoinRoom, isRoomHost }) => {
   const navigate = useNavigate();
-  const succesButtonText = isRoomHost ? "Host" : "Join";
+  const succesButtonText = isRoomHost ? "Crear" : "Unirse";
 
   const pushToIntroductionPage = () => {
     navigate("/");
@@ -25,7 +25,7 @@ const JoinRoomButtons = ({ handleJoinRoom, isRoomHost }) => {
     <div className="join_room_buttons_container">
       <Button buttonText={succesButtonText} onClickHandler={handleJoinRoom} />
       <Button
-        buttonText="Cancel"
+        buttonText="Cancelar"
         cancelButton
         onClickHandler={pushToIntroductionPage}
       />

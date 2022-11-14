@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toggleCamera } from "../../../util/webRTCHandler";
 
 import Camera from "../../../images/camera.svg";
 import CameraOff from "../../../images/cameraOff.svg";
@@ -7,6 +8,7 @@ function CameraButton(props) {
   const [isLocalVideoDisabled, setIsLocalVideoDisabled] = useState(false);
 
   const handlerCameraButtonPressed = () => {
+    toggleCamera(isLocalVideoDisabled);
     setIsLocalVideoDisabled((state) => !state);
   };
 

@@ -9,7 +9,7 @@ function LeaveRoomButton(props) {
   return (
     <div className="video_button_container">
       <button className="video_button_end" onClick={handleRoomLeave}>
-        Leave Room
+        Abandonar
       </button>
     </div>
   );

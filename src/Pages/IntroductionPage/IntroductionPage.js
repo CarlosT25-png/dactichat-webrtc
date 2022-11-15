@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { roomActions } from '../../store/store';
-import logo from '../../images/logo.png';
+import logo from '../../images/LOGODACTI.png';
 import ConnectingButtons from './ConnectingButtons';
 import './IntroductionPage.css';
 

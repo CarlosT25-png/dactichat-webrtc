@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import ChatSection from "./ChatSection/ChatSection.js";
 import ParticipantsSection from "./ParticipantsSection/ParticipantsSection.js";
 import VideoSection from "./VideoSection/VideoSection.js";
@@ -10,12 +11,20 @@ import "./RoomPage.css";
 import Overlay from "./Overlay.js";
 
 const RoomPage = () => {
-  const { roomId, isRoomHost, identity, showOverlay } = useSelector(
+  const navigate = useNavigate();
+
+  const { roomId, isRoomHost, identity, showOverlay, connectOnlyWithAudio } = useSelector(
     (state) => state.room
   );
 
   useEffect(() => {
-    getLocalPreviewAndInitRoomConnection(isRoomHost, identity, roomId);
+
+    if(!isRoomHost && !roomId){
+      const siteUrl = window.location.origin;
+      window.location.href = siteUrl;
+    } else {
+      getLocalPreviewAndInitRoomConnection(isRoomHost, identity, roomId, connectOnlyWithAudio);
+    }
   }, []);
 
   return (

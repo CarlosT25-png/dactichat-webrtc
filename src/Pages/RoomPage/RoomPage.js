@@ -6,7 +6,6 @@ import ParticipantsSection from "./ParticipantsSection/ParticipantsSection.js";
 import VideoSection from "./VideoSection/VideoSection.js";
 import { getLocalPreviewAndInitRoomConnection } from "../../util/webRTCHandler.js";
 import RoomLabel from "./RoomLabel.js";
-
 import "./RoomPage.css";
 import Overlay from "./Overlay.js";
 
@@ -17,14 +16,22 @@ const RoomPage = () => {
     (state) => state.room
   );
 
+  console.log(roomId)
+  console.log(isRoomHost)
+
   useEffect(() => {
 
-    if(!isRoomHost && !roomId){
-      const siteUrl = window.location.origin;
-      window.location.href = siteUrl;
-    } else {
-      getLocalPreviewAndInitRoomConnection(isRoomHost, identity, roomId, connectOnlyWithAudio);
-    }
+    getLocalPreviewAndInitRoomConnection(isRoomHost, identity, roomId, connectOnlyWithAudio);
+
+    // if(!isRoomHost && !roomId){
+    //   const siteUrl = window.location.origin;
+    //   window.location.href = siteUrl;
+    //   console.log('Se regreso')
+    //   console.log(isRoomHost)
+    //   console.log(roomId)
+    // } else {
+    //   getLocalPreviewAndInitRoomConnection(isRoomHost, identity, roomId, connectOnlyWithAudio);
+    // }
   }, []);
 
   return (

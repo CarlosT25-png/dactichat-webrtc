@@ -4,7 +4,7 @@ import IntroductionPage from './Pages/IntroductionPage/IntroductionPage';
 import JoinRoomPage from './Pages/JoinRoomPage/JoinRoomPage';
 import RoomPage from './Pages/RoomPage/RoomPage';
 import { connectWithSocketIOServer } from './util/wss';
-import './App.css';
+import './index.css';
 
 function App() {
   useEffect(() => {

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialRoomState = {
-  identity: '',
+  identity: 'Carlos',
   isRoomHost: false,
   connectOnlyWithAudio: false,
   roomId: null,

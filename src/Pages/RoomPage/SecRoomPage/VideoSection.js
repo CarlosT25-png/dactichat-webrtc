@@ -29,32 +29,10 @@ const testObj = [
 let fun;
 
 const VideoSection = () => {
-  // const [classGrid, setClassGrid] = useState('grid-1');
-
-  // const [videos, setVideos] = useState([...streamVideos]);
-
-  // useEffect(() => {
-  //   setVideos(...streamVideos)
-  // }, [streamVideos])
-
-  // useEffect(() => {
-  //   if(videos.length === 1){
-  //     setClassGrid(styles['grid-1']);
-  //   }else if(videos.length >= 2){
-  //     setClassGrid(styles['grid-3-4'])
-  //   }else{
-  //     setClassGrid(styles['grid-3-4']);
-  //   }
-  // }, [videos])
 
   return (
     <div className={styles['video-container']}>
       <div id='video-composicion' className={styles['video-composicion'] + ' ' }>
-        {/* {videos.map((item, idx) => {
-          return (
-            <VideoPlayer identity={item.identity} srcObject={item.srcObject} muted={item.muted} socketId={item.socketId ? item.socketId : ''}/>
-          )
-        })} */}
       </div>
       <div className={styles['video-controls']}>
           <VideoControls />

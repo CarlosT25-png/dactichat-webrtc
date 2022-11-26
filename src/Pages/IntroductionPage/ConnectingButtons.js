@@ -20,15 +20,12 @@ const ConnectingButtons = () => {
     navigate("/join-room?host=true");
   };
 
-  
-
   const onInputRoomIdChange = ev => {
     setRoomId(ev.target.value);
   }
 
   const onJoinRoom = async ev => {
     ev.preventDefault();
-    dispatch(roomActions.setIdentity('Carlos'));
     dispatch(roomActions.setIsRoomHost(false));
     await joinRoom();
   }
@@ -53,7 +50,6 @@ const ConnectingButtons = () => {
 
 
   const onCreateRoom = () => {
-    dispatch(roomActions.setIdentity('Carlos'));
     dispatch(roomActions.setIsRoomHost(true));
     navigate('/room')
   }

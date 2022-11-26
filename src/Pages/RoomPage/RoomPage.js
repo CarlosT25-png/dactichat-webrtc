@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState  } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ChatSection from "./ChatSection/ChatSection.js";
@@ -16,11 +16,19 @@ const RoomPage = () => {
     (state) => state.room
   );
 
-  console.log(roomId)
-  console.log(isRoomHost)
+  let authToken = sessionStorage.getItem('Auth Token');
+  const [loggeadoAuth, setLoggeadoAuth] = useState(authToken?.length >= 1 ? true : false);
+  const [loggeadoIden, setLoggeadoIdent] = useState(identity?.length >= 1 ? true : false);
 
   useEffect(() => {
+    setLoggeadoAuth(authToken?.length >= 1 ? true : false)
+    setLoggeadoIdent(identity?.length >= 1 ? true : false)
+  }, [identity, authToken])
 
+  useEffect(() => {
+    if(!loggeadoAuth && !loggeadoIden){
+      navigate('/login')
+    }
     getLocalPreviewAndInitRoomConnection(isRoomHost, identity, roomId, connectOnlyWithAudio);
 
     // if(!isRoomHost && !roomId){

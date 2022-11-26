@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const serverApi = 'http://localhost:5002/api';
+const serverApi = 'http://3.85.237.83:8080/api';
 
 export const getRoomExists = async roomId => {
   const response = await axios.get(serverApi + '/room-exists/' + roomId);

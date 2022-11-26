@@ -3,7 +3,7 @@ import { store } from "../store/store";
 import { roomActions } from "../store/store";
 import { handlerSignalingData, prepareNewPeerConnection, removePeerConnection } from "./webRTCHandler";
 
-const SERVER = "http://localhost:5002";
+const SERVER = "http://3.85.237.83:8080";
 
 let socket = null;
 

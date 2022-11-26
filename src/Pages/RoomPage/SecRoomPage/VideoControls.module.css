@@ -1,0 +1,17 @@
+.main-container{
+  width: 95%;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-state{
+  display: flex;
+  column-gap: 1rem;
+}
+
+.btn-abandonar{
+  width: 20%;
+}

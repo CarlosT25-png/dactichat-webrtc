@@ -5,6 +5,7 @@ import JoinRoomPage from './Pages/JoinRoomPage/JoinRoomPage';
 import RoomPage from './Pages/RoomPage/RoomPage';
 import { connectWithSocketIOServer } from './util/wss';
 import './index.css';
+import SecRoomPage from './Pages/RoomPage/SecRoomPage';
 
 function App() {
   useEffect(() => {
@@ -15,7 +16,7 @@ function App() {
       <Routes>
         <Route path='/' element={<IntroductionPage />} />
         <Route path='/join-room' element={<JoinRoomPage />} />
-        <Route path='/room' element={<RoomPage />} />
+        <Route path='/room' element={<SecRoomPage />} />
       </Routes>
   );
 }

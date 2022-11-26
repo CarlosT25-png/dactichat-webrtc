@@ -36,9 +36,8 @@ const RoomPage = () => {
 
   return (
     <div className="room_container">
-      <ParticipantsSection />
       <VideoSection />
-      <ChatSection />
+      <ParticipantsSection />
       <RoomLabel roomId={roomId} />
       {showOverlay && <Overlay />}
     </div>

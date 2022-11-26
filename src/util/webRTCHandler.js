@@ -1,8 +1,11 @@
 import Peer from "simple-peer";
 import { store } from "../store/store";
-import { roomActions } from "../store/store";
+import { roomActions, videosActions } from "../store/store";
 import { fetchTURNCredentials, getTurnIceServers } from "./turn";
+import { updateVideo } from "./streams";
 import * as wss from "./wss";
+
+let mediasStream = [];
 
 const defaultConstraints = {
   audio: true,
@@ -34,6 +37,7 @@ export const getLocalPreviewAndInitRoomConnection = async (
     .getUserMedia(constraints)
     .then((stream) => {
       localStream = stream;
+      console.log("holaaa");
       showLocalVideoPreview(localStream);
       store.dispatch(roomActions.setShowOverlay(false)); //Se va el loading spinner
       isRoomHost
@@ -54,13 +58,13 @@ let streams = [];
 const getConfiguration = () => {
   const turnIceServers = getTurnIceServers();
 
-  if(turnIceServers){
+  if (turnIceServers) {
     return {
       iceServers: [
         {
           urls: "stun:stun.l.google.com:19302",
         },
-        ...turnIceServers
+        ...turnIceServers,
       ],
     };
   } else {
@@ -72,7 +76,6 @@ const getConfiguration = () => {
       ],
     };
   }
-  
 };
 
 export const prepareNewPeerConnection = (dataReceive) => {
@@ -110,6 +113,9 @@ export const removePeerConnection = (data) => {
   const videoContainer = document.getElementById(socketId);
   const videoElement = document.getElementById(`${socketId}-video`);
 
+  console.log('remove peer')
+  console.log(socketId);
+
   if (videoContainer && videoElement) {
     const tracks = videoElement.srcObject.getTracks();
 
@@ -124,22 +130,71 @@ export const removePeerConnection = (data) => {
     }
     delete peers[socketId];
   }
+
+  console.log(store.getState().room)
+
+  if(store.getState().room.participants.length <= 2 ){
+    const videosContainer = document.getElementById("videos_portal");
+    console.log('Agregando nueva clase 22')
+    console.log(videoContainer.classList.contains('grid-3-4'))
+    videoContainer.classList?.remove('grid-3-4');
+    videosContainer.classList.add('grid-1');
+  }  
 };
 
 ///////// UI
 const showLocalVideoPreview = (stream) => {
   //show local video preview
+  // console.log('Se esta mostrando')
+  // const videoContainer = document.getElementById('videos_portal');
+  // videoContainer.classList.add('grid-1')
+
+  // const videoFrame = document.createElement('div');
+  // videoFrame.classList.add('video-container')
+
+  // const videoElement = document.createElement('video');
+  // videoElement.autoplay = true;
+  // videoElement.muted = true;
+  // videoElement.srcObject = stream;
+  // console.log(stream)
+
+  // videoFrame.appendChild(videoElement);
+
+  // const tagContainer = document.createElement('div');
+  // tagContainer.classList.add('tag-container');
+
+  // const tagName = document.createElement('span');
+  // tagName.classList.add('tag-name');
+  // tagName.textContent = 'Carlos T'
+
+  // tagContainer.appendChild(tagName);
+
+  // videoFrame.appendChild(tagContainer);
+  // videoContainer.appendChild(videoFrame);
+  // updateVideo({
+  //   muted: true,
+  //   srcObject: stream,
+  //   identity: store.getState().room.identity
+  // })
+  // store.dispatch(videosActions.setVideos({
+  //   muted: true,
+  //   srcObject: stream,
+  //   identity: store.getState().room.identity
+  // })); //Se va el loading spinner
   const videosContainer = document.getElementById("videos_portal");
   videosContainer.classList.add("videos_portal_styles");
+  videosContainer.classList.add('grid-1')
 
   const videoContainer = document.createElement("div");
-  videoContainer.classList.add("video_track_container");
+  videoContainer.classList.add("video-container");
 
   const videoElement = document.createElement("video");
   videoElement.autoplay = true;
   videoElement.muted = true;
   videoElement.srcObject = stream;
 
+  console.log(store.getState().room.roomId);
+
   //Para las versiones viejas de firefox, el autoplay no funciona, hay que hacerlo de esta manera
   videoElement.onloadeddata = () => {
     videoElement.play();
@@ -147,63 +202,120 @@ const showLocalVideoPreview = (stream) => {
 
   videoContainer.appendChild(videoElement);
 
+  const tagContainer = document.createElement('div');
+  tagContainer.classList.add('tag-container');
+
+  const tagName = document.createElement('span');
+  tagName.classList.add('tag-name');
+  tagName.textContent = store.getState().room.identity;
+
+  tagContainer.appendChild(tagName);
+
+  videoContainer.appendChild(tagContainer);
+
   console.log(store.getState());
 
-  if(store.getState().room.connectOnlyWithAudio) {
-    videoContainer.appendChild(getAudioOnlyLabel(store.getState().room.identity));
+  if (store.getState().room.connectOnlyWithAudio) {
+    videoContainer.appendChild(
+      getAudioOnlyLabel(store.getState().room.identity)
+    );
   }
 
   videosContainer.appendChild(videoContainer);
 };
 
 const addStream = (stream, connUserSocketId) => {
-  //display incoming stream
-  const videosContainer = document.getElementById("videos_portal");
-  const videoContainer = document.createElement("div");
-  videoContainer.id = connUserSocketId;
 
-  videoContainer.classList.add("video_track_container");
-  videoContainer.style.position = "static";
-  const videoElement = document.createElement("video");
-  videoElement.autoplay = true;
-  videoElement.srcObject = stream;
-  videoElement.id = `${connUserSocketId}-video`;
+  const videosContainers = document.getElementById("videos_portal");
+  videosContainers.classList.add("videos_portal_styles");
+  if(videosContainers.classList.contains('grid-1')){
+    videosContainers.classList.remove('grid-1');
+  }
+  videosContainers.classList.add('grid-3-4')
+
+  const videoContainers = document.createElement("div");
+  videoContainers.classList.add("video-container");
+  videoContainers.id = `${connUserSocketId}`
+
+  const videoElements = document.createElement("video");
+  videoElements.autoplay = true;
+  videoElements.muted = false;
+  videoElements.srcObject = stream;
+  videoElements.id = `${connUserSocketId}-video`;
 
   //Para las versiones viejas de firefox, el autoplay no funciona, hay que hacerlo de esta manera
-  videoElement.onloadeddata = () => {
-    videoElement.play();
+  videoElements.onloadeddata = () => {
+    videoElements.play();
   };
 
-  videoElement.addEventListener("click", () => {
-    if (videoElement.classList.contains("full_screen")) {
-      videoElement.classList.remove("full_screen");
-    } else {
-      videoElement.classList.add("full_screen");
-    }
-  });
+  videoContainers.appendChild(videoElements);
 
-  videoContainer.appendChild(videoElement);
+  const tagContainer = document.createElement('div');
+  tagContainer.classList.add('tag-container');
 
-  //Check if other user connected only with audio
-  const participants = store.getState().room.participants;
-  console.log(participants);
-  const participant = participants.find( p => p.socketId === connUserSocketId);
+  //Obtener el identity
+  const participantes = store.getState().room.participants;
+  const participante = participantes.find((p) => p.socketId === connUserSocketId);
 
-  if(participant?.onlyAudio){
-    videoContainer.appendChild(getAudioOnlyLabel(participant.identity));
-  }
 
-  videosContainer.appendChild(videoContainer);
+  const tagName = document.createElement('span');
+  tagName.classList.add('tag-name');
+  tagName.textContent = participante.identity;
+
+  tagContainer.appendChild(tagName);
+
+  videoContainers.appendChild(tagContainer);
+  videosContainers.appendChild(videoContainers)
+
+  // //display incoming stream
+  // const videosContainer = document.getElementById("videos_portal");
+  // const videoContainer = document.createElement("div");
+  // videoContainer.id = connUserSocketId;
+
+  // videoContainer.classList.add("video_track_container");
+  // videoContainer.style.position = "static";
+  // const videoElement = document.createElement("video");
+  // videoElement.autoplay = true;
+  // videoElement.srcObject = stream;
+  // videoElement.id = `${connUserSocketId}-video`;
+
+  // //Para las versiones viejas de firefox, el autoplay no funciona, hay que hacerlo de esta manera
+  // videoElement.onloadeddata = () => {
+  //   videoElement.play();
+  // };
+
+  // videoElement.addEventListener("click", () => {
+  //   if (videoElement.classList.contains("full_screen")) {
+  //     videoElement.classList.remove("full_screen");
+  //   } else {
+  //     videoElement.classList.add("full_screen");
+  //   }
+  // });
+
+  // videoContainer.appendChild(videoElement);
+
+  // //Check if other user connected only with audio
+  // const participants = store.getState().room.participants;
+  // console.log(participants);
+  // const participant = participants.find((p) => p.socketId === connUserSocketId);
+
+  
+
+  // if(participant?.onlyAudio){
+  //   videoContainer.appendChild(getAudioOnlyLabel(participant.identity));
+  // }
+
+  // videosContainer.appendChild(videoContainer);
 };
 
-const getAudioOnlyLabel = (identity = '') => {
-  const labelContainer = document.createElement('div');
-  labelContainer.classList.add('label_only_audio_container');
+const getAudioOnlyLabel = (identity = "") => {
+  const labelContainer = document.createElement("div");
+  labelContainer.classList.add("label_only_audio_container");
 
-  const label = document.createElement('p');
-  label.classList.add('label_only_audio_text');
+  const label = document.createElement("p");
+  label.classList.add("label_only_audio_text");
   label.innerHTML = `Solo audio ${identity}`;
-  
+
   labelContainer.appendChild(label);
   return labelContainer;
 };

@@ -1,0 +1,36 @@
+.video-container {
+  width: 95%;
+  height: 95%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.video-container video {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.tag-container{
+  position: absolute;
+  left: 5%;
+  top: 5%;
+  background-color: rgba(0, 0, 0, 1);
+  opacity: .6;
+  padding: .75rem 1.5rem;
+  border-radius: 25px;
+}
+
+.tag-name {
+  color: white;
+  opacity: 1;
+  font-weight: 500;
+  font-size: 1.2rem;
+}

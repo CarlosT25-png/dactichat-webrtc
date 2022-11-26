@@ -1,0 +1,80 @@
+.share-id-button{
+  font-size: 1.4rem;
+  font-weight: 500;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  color: rgba(0, 0, 0, .9);
+  background-color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.share-id-button > span:nth-child(1) {
+  padding-right: 1rem;
+}
+
+.share-id-button_svg {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.share-id-button:hover{
+  transform: translateY(-3px);
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+}
+
+.share-id-button:active{
+  transform: translateY(-1px);
+  background-color: var(--primary-700);
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+.btn-normal{
+  background-color: white;
+  height: 4.5rem;
+  width: 4.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.btn-normal > svg {
+  height: 1.75rem;
+  width: 1.75rem;
+}
+
+.btn-abandonar {
+  font-size: 1.4rem;
+  font-weight: 500;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  color: white;
+  background-color: #f12e2e;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.color-red{
+  color: #f12e2e;
+}
+
+.color-primary{
+  background-color: var(--primary-700);
+}
+
+.color-primary > svg{
+  color: white;
+}

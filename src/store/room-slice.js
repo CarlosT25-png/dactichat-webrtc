@@ -6,6 +6,7 @@ const initialRoomState = {
   connectOnlyWithAudio: false,
   roomId: null,
   showOverlay: true,
+  showParticipants: false,
   participants: []
 };
 
@@ -30,6 +31,9 @@ const roomSlice = createSlice({
     },
     setParticipants(state, action){
       state.participants = action.payload
+    },
+    setShowParticipants(state, action){
+      state.showParticipants = action.payload
     }
   }
 })

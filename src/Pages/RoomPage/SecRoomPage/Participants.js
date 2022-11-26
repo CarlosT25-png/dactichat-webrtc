@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { FiX, FiClipboard } from 'react-icons/fi';
+import { FiClipboard } from 'react-icons/fi';
 import styles from './Participants.module.css';
 import './Controlsbuttons/Buttons.css';
 
@@ -15,7 +15,6 @@ const Participants = () => {
     <div className={styles['participants-container']}>
       <div className={styles['title-container']}>
         <h3>Participantes</h3>
-        <FiX className={styles['btn-cerrar']}/>
       </div>
       
       <div className={styles['btn-agregar-participantes']} onClick={handleShareRoomId}>Compartir Reunión <FiClipboard className='share-id-button_svg' /></div>
